@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider   = "prisma-client"
+  engineType = "library"
+  output     = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Rol {
+  ADMIN
+  RECEPCIONISTA
+  MUCAMA
+  MOZO
+  COCINERO
+}
+
+model Empleado {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  apellido  String
+  documento String   @unique
+  cuil      String   @unique
+  rol       Rol      @default(RECEPCIONISTA)
+  pin       String   @unique // El código de 4 dígitos
+  telefono  String?
+  direccion String?
+  fotoUrl   String?
+  isOnline  Boolean  @default(false)
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  valores     ValorConcepto[] // Sus precios personalizados
+  asistencias Asistencia[]
+}
+
+model Asistencia {
+  id            Int      @id @default(autoincrement())
+  empleadoId    Int
+  empleado      Empleado @relation(fields: [empleadoId], references: [id])
+  fecha         DateTime @default(now()) @db.Date // Para agrupar por día
+  tipo          String // "ENTRADA" o "SALIDA"
+  hora          DateTime @default(now())
+  turno         String // "MAÑANA", "TARDE", "NOCHE"
+  registradoPor Int // ID del Recepcionista que hizo el clic
+}
+
+// Definición de los ítems posibles (El "Menú" de pagos)
+model Concepto {
+  id          Int      @id @default(autoincrement())
+  nombre      String   // Ej: "Hora Base", "Viáticos", "Presentismo"
+  tipo        String   // "INGRESO" (Suma) o "DESCUENTO" (Resta)
+  codigo      String   @unique // Ej: "HORA_BASE"
+  valores     ValorConcepto[]
+}
+
+model ValorConcepto {
+  id          Int      @id @default(autoincrement())
+  monto       Decimal  @db.Decimal(10, 2)
+  empleadoId  Int
+  empleado    Empleado @relation(fields: [empleadoId], references: [id])
+  conceptoId  Int
+  concepto    Concepto @relation(fields: [conceptoId], references: [id])
+
+  @@unique([empleadoId, conceptoId])
+}
