@@ -18,3 +18,53 @@ export const Rol = {
 } as const
 
 export type Rol = (typeof Rol)[keyof typeof Rol]
+
+
+export const Piso = {
+  PLANTA_BAJA: 'PLANTA_BAJA',
+  PRIMER_PISO: 'PRIMER_PISO',
+  SEGUNDO_PISO: 'SEGUNDO_PISO',
+  TERCER_PISO: 'TERCER_PISO',
+  CUARTO_PISO: 'CUARTO_PISO'
+} as const
+
+export type Piso = (typeof Piso)[keyof typeof Piso]
+
+
+export const Disponibilidad = {
+  LIBRE: 'LIBRE',
+  OCUPADA: 'OCUPADA'
+} as const
+
+export type Disponibilidad = (typeof Disponibilidad)[keyof typeof Disponibilidad]
+
+
+export const EstadoLimpieza = {
+  LIMPIA: 'LIMPIA',
+  SUCIA: 'SUCIA',
+  EN_MANTENIMIENTO: 'EN_MANTENIMIENTO'
+} as const
+
+export type EstadoLimpieza = (typeof EstadoLimpieza)[keyof typeof EstadoLimpieza]
+
+
+export const EstadoReserva = {
+  PENDIENTE: 'PENDIENTE',
+  CONFIRMADA: 'CONFIRMADA',
+  CANCELADA: 'CANCELADA',
+  CHECK_IN: 'CHECK_IN',
+  CHECK_OUT: 'CHECK_OUT',
+  NO_SHOW: 'NO_SHOW'
+} as const
+
+export type EstadoReserva = (typeof EstadoReserva)[keyof typeof EstadoReserva]
+
+
+export const MetodoPago = {
+  EFECTIVO: 'EFECTIVO',
+  TRANSFERENCIA: 'TRANSFERENCIA',
+  TARJETA_DEBITO: 'TARJETA_DEBITO',
+  TARJETA_CREDITO: 'TARJETA_CREDITO'
+} as const
+
+export type MetodoPago = (typeof MetodoPago)[keyof typeof MetodoPago]

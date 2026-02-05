@@ -45,6 +45,51 @@ export { Prisma }
  */
 export type Empleado = Prisma.EmpleadoModel
 /**
+ * Model TipoHabitacion
+ * 
+ */
+export type TipoHabitacion = Prisma.TipoHabitacionModel
+/**
+ * Model Habitacion
+ * 
+ */
+export type Habitacion = Prisma.HabitacionModel
+/**
+ * Model Cliente
+ * 
+ */
+export type Cliente = Prisma.ClienteModel
+/**
+ * Model Huesped
+ * 
+ */
+export type Huesped = Prisma.HuespedModel
+/**
+ * Model Reserva
+ * 
+ */
+export type Reserva = Prisma.ReservaModel
+/**
+ * Model ReservaHabitacion
+ * 
+ */
+export type ReservaHabitacion = Prisma.ReservaHabitacionModel
+/**
+ * Model OcupacionHuesped
+ * 
+ */
+export type OcupacionHuesped = Prisma.OcupacionHuespedModel
+/**
+ * Model Pago
+ * 
+ */
+export type Pago = Prisma.PagoModel
+/**
+ * Model CargoExtra
+ * 
+ */
+export type CargoExtra = Prisma.CargoExtraModel
+/**
  * Model Asistencia
  * 
  */

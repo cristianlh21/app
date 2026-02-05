@@ -9,6 +9,15 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Empleado'
+export type * from './models/TipoHabitacion'
+export type * from './models/Habitacion'
+export type * from './models/Cliente'
+export type * from './models/Huesped'
+export type * from './models/Reserva'
+export type * from './models/ReservaHabitacion'
+export type * from './models/OcupacionHuesped'
+export type * from './models/Pago'
+export type * from './models/CargoExtra'
 export type * from './models/Asistencia'
 export type * from './models/Concepto'
 export type * from './models/ValorConcepto'

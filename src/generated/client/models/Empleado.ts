@@ -44,10 +44,9 @@ export type EmpleadoMinAggregateOutputType = {
   pin: string | null
   telefono: string | null
   direccion: string | null
-  fotoUrl: string | null
   isOnline: boolean | null
   activo: boolean | null
-  createdAt: Date | null
+  fotoUrl: string | null
 }
 
 export type EmpleadoMaxAggregateOutputType = {
@@ -60,10 +59,9 @@ export type EmpleadoMaxAggregateOutputType = {
   pin: string | null
   telefono: string | null
   direccion: string | null
-  fotoUrl: string | null
   isOnline: boolean | null
   activo: boolean | null
-  createdAt: Date | null
+  fotoUrl: string | null
 }
 
 export type EmpleadoCountAggregateOutputType = {
@@ -76,10 +74,9 @@ export type EmpleadoCountAggregateOutputType = {
   pin: number
   telefono: number
   direccion: number
-  fotoUrl: number
   isOnline: number
   activo: number
-  createdAt: number
+  fotoUrl: number
   _all: number
 }
 
@@ -102,10 +99,9 @@ export type EmpleadoMinAggregateInputType = {
   pin?: true
   telefono?: true
   direccion?: true
-  fotoUrl?: true
   isOnline?: true
   activo?: true
-  createdAt?: true
+  fotoUrl?: true
 }
 
 export type EmpleadoMaxAggregateInputType = {
@@ -118,10 +114,9 @@ export type EmpleadoMaxAggregateInputType = {
   pin?: true
   telefono?: true
   direccion?: true
-  fotoUrl?: true
   isOnline?: true
   activo?: true
-  createdAt?: true
+  fotoUrl?: true
 }
 
 export type EmpleadoCountAggregateInputType = {
@@ -134,10 +129,9 @@ export type EmpleadoCountAggregateInputType = {
   pin?: true
   telefono?: true
   direccion?: true
-  fotoUrl?: true
   isOnline?: true
   activo?: true
-  createdAt?: true
+  fotoUrl?: true
   _all?: true
 }
 
@@ -237,10 +231,9 @@ export type EmpleadoGroupByOutputType = {
   pin: string
   telefono: string | null
   direccion: string | null
-  fotoUrl: string | null
   isOnline: boolean
   activo: boolean
-  createdAt: Date
+  fotoUrl: string | null
   _count: EmpleadoCountAggregateOutputType | null
   _avg: EmpleadoAvgAggregateOutputType | null
   _sum: EmpleadoSumAggregateOutputType | null
@@ -276,12 +269,12 @@ export type EmpleadoWhereInput = {
   pin?: Prisma.StringFilter<"Empleado"> | string
   telefono?: Prisma.StringNullableFilter<"Empleado"> | string | null
   direccion?: Prisma.StringNullableFilter<"Empleado"> | string | null
-  fotoUrl?: Prisma.StringNullableFilter<"Empleado"> | string | null
   isOnline?: Prisma.BoolFilter<"Empleado"> | boolean
   activo?: Prisma.BoolFilter<"Empleado"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"Empleado"> | Date | string
-  valores?: Prisma.ValorConceptoListRelationFilter
+  fotoUrl?: Prisma.StringNullableFilter<"Empleado"> | string | null
   asistencias?: Prisma.AsistenciaListRelationFilter
+  valores?: Prisma.ValorConceptoListRelationFilter
+  reservasCreadas?: Prisma.ReservaListRelationFilter
 }
 
 export type EmpleadoOrderByWithRelationInput = {
@@ -294,12 +287,12 @@ export type EmpleadoOrderByWithRelationInput = {
   pin?: Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
-  fotoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   activo?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  valores?: Prisma.ValorConceptoOrderByRelationAggregateInput
+  fotoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   asistencias?: Prisma.AsistenciaOrderByRelationAggregateInput
+  valores?: Prisma.ValorConceptoOrderByRelationAggregateInput
+  reservasCreadas?: Prisma.ReservaOrderByRelationAggregateInput
 }
 
 export type EmpleadoWhereUniqueInput = Prisma.AtLeast<{
@@ -315,12 +308,12 @@ export type EmpleadoWhereUniqueInput = Prisma.AtLeast<{
   rol?: Prisma.EnumRolFilter<"Empleado"> | $Enums.Rol
   telefono?: Prisma.StringNullableFilter<"Empleado"> | string | null
   direccion?: Prisma.StringNullableFilter<"Empleado"> | string | null
-  fotoUrl?: Prisma.StringNullableFilter<"Empleado"> | string | null
   isOnline?: Prisma.BoolFilter<"Empleado"> | boolean
   activo?: Prisma.BoolFilter<"Empleado"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"Empleado"> | Date | string
-  valores?: Prisma.ValorConceptoListRelationFilter
+  fotoUrl?: Prisma.StringNullableFilter<"Empleado"> | string | null
   asistencias?: Prisma.AsistenciaListRelationFilter
+  valores?: Prisma.ValorConceptoListRelationFilter
+  reservasCreadas?: Prisma.ReservaListRelationFilter
 }, "id" | "documento" | "cuil" | "pin">
 
 export type EmpleadoOrderByWithAggregationInput = {
@@ -333,10 +326,9 @@ export type EmpleadoOrderByWithAggregationInput = {
   pin?: Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
-  fotoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   activo?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  fotoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EmpleadoCountOrderByAggregateInput
   _avg?: Prisma.EmpleadoAvgOrderByAggregateInput
   _max?: Prisma.EmpleadoMaxOrderByAggregateInput
@@ -357,10 +349,9 @@ export type EmpleadoScalarWhereWithAggregatesInput = {
   pin?: Prisma.StringWithAggregatesFilter<"Empleado"> | string
   telefono?: Prisma.StringNullableWithAggregatesFilter<"Empleado"> | string | null
   direccion?: Prisma.StringNullableWithAggregatesFilter<"Empleado"> | string | null
-  fotoUrl?: Prisma.StringNullableWithAggregatesFilter<"Empleado"> | string | null
   isOnline?: Prisma.BoolWithAggregatesFilter<"Empleado"> | boolean
   activo?: Prisma.BoolWithAggregatesFilter<"Empleado"> | boolean
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Empleado"> | Date | string
+  fotoUrl?: Prisma.StringNullableWithAggregatesFilter<"Empleado"> | string | null
 }
 
 export type EmpleadoCreateInput = {
@@ -372,12 +363,12 @@ export type EmpleadoCreateInput = {
   pin: string
   telefono?: string | null
   direccion?: string | null
-  fotoUrl?: string | null
   isOnline?: boolean
   activo?: boolean
-  createdAt?: Date | string
-  valores?: Prisma.ValorConceptoCreateNestedManyWithoutEmpleadoInput
+  fotoUrl?: string | null
   asistencias?: Prisma.AsistenciaCreateNestedManyWithoutEmpleadoInput
+  valores?: Prisma.ValorConceptoCreateNestedManyWithoutEmpleadoInput
+  reservasCreadas?: Prisma.ReservaCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoUncheckedCreateInput = {
@@ -390,12 +381,12 @@ export type EmpleadoUncheckedCreateInput = {
   pin: string
   telefono?: string | null
   direccion?: string | null
-  fotoUrl?: string | null
   isOnline?: boolean
   activo?: boolean
-  createdAt?: Date | string
-  valores?: Prisma.ValorConceptoUncheckedCreateNestedManyWithoutEmpleadoInput
+  fotoUrl?: string | null
   asistencias?: Prisma.AsistenciaUncheckedCreateNestedManyWithoutEmpleadoInput
+  valores?: Prisma.ValorConceptoUncheckedCreateNestedManyWithoutEmpleadoInput
+  reservasCreadas?: Prisma.ReservaUncheckedCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoUpdateInput = {
@@ -407,12 +398,12 @@ export type EmpleadoUpdateInput = {
   pin?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  valores?: Prisma.ValorConceptoUpdateManyWithoutEmpleadoNestedInput
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   asistencias?: Prisma.AsistenciaUpdateManyWithoutEmpleadoNestedInput
+  valores?: Prisma.ValorConceptoUpdateManyWithoutEmpleadoNestedInput
+  reservasCreadas?: Prisma.ReservaUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoUncheckedUpdateInput = {
@@ -425,12 +416,12 @@ export type EmpleadoUncheckedUpdateInput = {
   pin?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  valores?: Prisma.ValorConceptoUncheckedUpdateManyWithoutEmpleadoNestedInput
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   asistencias?: Prisma.AsistenciaUncheckedUpdateManyWithoutEmpleadoNestedInput
+  valores?: Prisma.ValorConceptoUncheckedUpdateManyWithoutEmpleadoNestedInput
+  reservasCreadas?: Prisma.ReservaUncheckedUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoCreateManyInput = {
@@ -443,10 +434,9 @@ export type EmpleadoCreateManyInput = {
   pin: string
   telefono?: string | null
   direccion?: string | null
-  fotoUrl?: string | null
   isOnline?: boolean
   activo?: boolean
-  createdAt?: Date | string
+  fotoUrl?: string | null
 }
 
 export type EmpleadoUpdateManyMutationInput = {
@@ -458,10 +448,9 @@ export type EmpleadoUpdateManyMutationInput = {
   pin?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EmpleadoUncheckedUpdateManyInput = {
@@ -474,10 +463,9 @@ export type EmpleadoUncheckedUpdateManyInput = {
   pin?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EmpleadoCountOrderByAggregateInput = {
@@ -490,10 +478,9 @@ export type EmpleadoCountOrderByAggregateInput = {
   pin?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
-  fotoUrl?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   activo?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  fotoUrl?: Prisma.SortOrder
 }
 
 export type EmpleadoAvgOrderByAggregateInput = {
@@ -510,10 +497,9 @@ export type EmpleadoMaxOrderByAggregateInput = {
   pin?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
-  fotoUrl?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   activo?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  fotoUrl?: Prisma.SortOrder
 }
 
 export type EmpleadoMinOrderByAggregateInput = {
@@ -526,10 +512,9 @@ export type EmpleadoMinOrderByAggregateInput = {
   pin?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
-  fotoUrl?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   activo?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  fotoUrl?: Prisma.SortOrder
 }
 
 export type EmpleadoSumOrderByAggregateInput = {
@@ -557,16 +542,26 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type EmpleadoCreateNestedOneWithoutReservasCreadasInput = {
+  create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutReservasCreadasInput, Prisma.EmpleadoUncheckedCreateWithoutReservasCreadasInput>
+  connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutReservasCreadasInput
+  connect?: Prisma.EmpleadoWhereUniqueInput
+}
+
+export type EmpleadoUpdateOneRequiredWithoutReservasCreadasNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutReservasCreadasInput, Prisma.EmpleadoUncheckedCreateWithoutReservasCreadasInput>
+  connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutReservasCreadasInput
+  upsert?: Prisma.EmpleadoUpsertWithoutReservasCreadasInput
+  connect?: Prisma.EmpleadoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpleadoUpdateToOneWithWhereWithoutReservasCreadasInput, Prisma.EmpleadoUpdateWithoutReservasCreadasInput>, Prisma.EmpleadoUncheckedUpdateWithoutReservasCreadasInput>
 }
 
 export type EmpleadoCreateNestedOneWithoutAsistenciasInput = {
@@ -597,6 +592,88 @@ export type EmpleadoUpdateOneRequiredWithoutValoresNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpleadoUpdateToOneWithWhereWithoutValoresInput, Prisma.EmpleadoUpdateWithoutValoresInput>, Prisma.EmpleadoUncheckedUpdateWithoutValoresInput>
 }
 
+export type EmpleadoCreateWithoutReservasCreadasInput = {
+  nombre: string
+  apellido: string
+  documento: string
+  cuil: string
+  rol?: $Enums.Rol
+  pin: string
+  telefono?: string | null
+  direccion?: string | null
+  isOnline?: boolean
+  activo?: boolean
+  fotoUrl?: string | null
+  asistencias?: Prisma.AsistenciaCreateNestedManyWithoutEmpleadoInput
+  valores?: Prisma.ValorConceptoCreateNestedManyWithoutEmpleadoInput
+}
+
+export type EmpleadoUncheckedCreateWithoutReservasCreadasInput = {
+  id?: number
+  nombre: string
+  apellido: string
+  documento: string
+  cuil: string
+  rol?: $Enums.Rol
+  pin: string
+  telefono?: string | null
+  direccion?: string | null
+  isOnline?: boolean
+  activo?: boolean
+  fotoUrl?: string | null
+  asistencias?: Prisma.AsistenciaUncheckedCreateNestedManyWithoutEmpleadoInput
+  valores?: Prisma.ValorConceptoUncheckedCreateNestedManyWithoutEmpleadoInput
+}
+
+export type EmpleadoCreateOrConnectWithoutReservasCreadasInput = {
+  where: Prisma.EmpleadoWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpleadoCreateWithoutReservasCreadasInput, Prisma.EmpleadoUncheckedCreateWithoutReservasCreadasInput>
+}
+
+export type EmpleadoUpsertWithoutReservasCreadasInput = {
+  update: Prisma.XOR<Prisma.EmpleadoUpdateWithoutReservasCreadasInput, Prisma.EmpleadoUncheckedUpdateWithoutReservasCreadasInput>
+  create: Prisma.XOR<Prisma.EmpleadoCreateWithoutReservasCreadasInput, Prisma.EmpleadoUncheckedCreateWithoutReservasCreadasInput>
+  where?: Prisma.EmpleadoWhereInput
+}
+
+export type EmpleadoUpdateToOneWithWhereWithoutReservasCreadasInput = {
+  where?: Prisma.EmpleadoWhereInput
+  data: Prisma.XOR<Prisma.EmpleadoUpdateWithoutReservasCreadasInput, Prisma.EmpleadoUncheckedUpdateWithoutReservasCreadasInput>
+}
+
+export type EmpleadoUpdateWithoutReservasCreadasInput = {
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  documento?: Prisma.StringFieldUpdateOperationsInput | string
+  cuil?: Prisma.StringFieldUpdateOperationsInput | string
+  rol?: Prisma.EnumRolFieldUpdateOperationsInput | $Enums.Rol
+  pin?: Prisma.StringFieldUpdateOperationsInput | string
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  asistencias?: Prisma.AsistenciaUpdateManyWithoutEmpleadoNestedInput
+  valores?: Prisma.ValorConceptoUpdateManyWithoutEmpleadoNestedInput
+}
+
+export type EmpleadoUncheckedUpdateWithoutReservasCreadasInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  documento?: Prisma.StringFieldUpdateOperationsInput | string
+  cuil?: Prisma.StringFieldUpdateOperationsInput | string
+  rol?: Prisma.EnumRolFieldUpdateOperationsInput | $Enums.Rol
+  pin?: Prisma.StringFieldUpdateOperationsInput | string
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  asistencias?: Prisma.AsistenciaUncheckedUpdateManyWithoutEmpleadoNestedInput
+  valores?: Prisma.ValorConceptoUncheckedUpdateManyWithoutEmpleadoNestedInput
+}
+
 export type EmpleadoCreateWithoutAsistenciasInput = {
   nombre: string
   apellido: string
@@ -606,11 +683,11 @@ export type EmpleadoCreateWithoutAsistenciasInput = {
   pin: string
   telefono?: string | null
   direccion?: string | null
-  fotoUrl?: string | null
   isOnline?: boolean
   activo?: boolean
-  createdAt?: Date | string
+  fotoUrl?: string | null
   valores?: Prisma.ValorConceptoCreateNestedManyWithoutEmpleadoInput
+  reservasCreadas?: Prisma.ReservaCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoUncheckedCreateWithoutAsistenciasInput = {
@@ -623,11 +700,11 @@ export type EmpleadoUncheckedCreateWithoutAsistenciasInput = {
   pin: string
   telefono?: string | null
   direccion?: string | null
-  fotoUrl?: string | null
   isOnline?: boolean
   activo?: boolean
-  createdAt?: Date | string
+  fotoUrl?: string | null
   valores?: Prisma.ValorConceptoUncheckedCreateNestedManyWithoutEmpleadoInput
+  reservasCreadas?: Prisma.ReservaUncheckedCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoCreateOrConnectWithoutAsistenciasInput = {
@@ -655,11 +732,11 @@ export type EmpleadoUpdateWithoutAsistenciasInput = {
   pin?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valores?: Prisma.ValorConceptoUpdateManyWithoutEmpleadoNestedInput
+  reservasCreadas?: Prisma.ReservaUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoUncheckedUpdateWithoutAsistenciasInput = {
@@ -672,11 +749,11 @@ export type EmpleadoUncheckedUpdateWithoutAsistenciasInput = {
   pin?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valores?: Prisma.ValorConceptoUncheckedUpdateManyWithoutEmpleadoNestedInput
+  reservasCreadas?: Prisma.ReservaUncheckedUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoCreateWithoutValoresInput = {
@@ -688,11 +765,11 @@ export type EmpleadoCreateWithoutValoresInput = {
   pin: string
   telefono?: string | null
   direccion?: string | null
-  fotoUrl?: string | null
   isOnline?: boolean
   activo?: boolean
-  createdAt?: Date | string
+  fotoUrl?: string | null
   asistencias?: Prisma.AsistenciaCreateNestedManyWithoutEmpleadoInput
+  reservasCreadas?: Prisma.ReservaCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoUncheckedCreateWithoutValoresInput = {
@@ -705,11 +782,11 @@ export type EmpleadoUncheckedCreateWithoutValoresInput = {
   pin: string
   telefono?: string | null
   direccion?: string | null
-  fotoUrl?: string | null
   isOnline?: boolean
   activo?: boolean
-  createdAt?: Date | string
+  fotoUrl?: string | null
   asistencias?: Prisma.AsistenciaUncheckedCreateNestedManyWithoutEmpleadoInput
+  reservasCreadas?: Prisma.ReservaUncheckedCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoCreateOrConnectWithoutValoresInput = {
@@ -737,11 +814,11 @@ export type EmpleadoUpdateWithoutValoresInput = {
   pin?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   asistencias?: Prisma.AsistenciaUpdateManyWithoutEmpleadoNestedInput
+  reservasCreadas?: Prisma.ReservaUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoUncheckedUpdateWithoutValoresInput = {
@@ -754,11 +831,11 @@ export type EmpleadoUncheckedUpdateWithoutValoresInput = {
   pin?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   asistencias?: Prisma.AsistenciaUncheckedUpdateManyWithoutEmpleadoNestedInput
+  reservasCreadas?: Prisma.ReservaUncheckedUpdateManyWithoutEmpleadoNestedInput
 }
 
 
@@ -767,13 +844,15 @@ export type EmpleadoUncheckedUpdateWithoutValoresInput = {
  */
 
 export type EmpleadoCountOutputType = {
-  valores: number
   asistencias: number
+  valores: number
+  reservasCreadas: number
 }
 
 export type EmpleadoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  valores?: boolean | EmpleadoCountOutputTypeCountValoresArgs
   asistencias?: boolean | EmpleadoCountOutputTypeCountAsistenciasArgs
+  valores?: boolean | EmpleadoCountOutputTypeCountValoresArgs
+  reservasCreadas?: boolean | EmpleadoCountOutputTypeCountReservasCreadasArgs
 }
 
 /**
@@ -789,6 +868,13 @@ export type EmpleadoCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * EmpleadoCountOutputType without action
  */
+export type EmpleadoCountOutputTypeCountAsistenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AsistenciaWhereInput
+}
+
+/**
+ * EmpleadoCountOutputType without action
+ */
 export type EmpleadoCountOutputTypeCountValoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ValorConceptoWhereInput
 }
@@ -796,8 +882,8 @@ export type EmpleadoCountOutputTypeCountValoresArgs<ExtArgs extends runtime.Type
 /**
  * EmpleadoCountOutputType without action
  */
-export type EmpleadoCountOutputTypeCountAsistenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AsistenciaWhereInput
+export type EmpleadoCountOutputTypeCountReservasCreadasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReservaWhereInput
 }
 
 
@@ -811,12 +897,12 @@ export type EmpleadoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   pin?: boolean
   telefono?: boolean
   direccion?: boolean
-  fotoUrl?: boolean
   isOnline?: boolean
   activo?: boolean
-  createdAt?: boolean
-  valores?: boolean | Prisma.Empleado$valoresArgs<ExtArgs>
+  fotoUrl?: boolean
   asistencias?: boolean | Prisma.Empleado$asistenciasArgs<ExtArgs>
+  valores?: boolean | Prisma.Empleado$valoresArgs<ExtArgs>
+  reservasCreadas?: boolean | Prisma.Empleado$reservasCreadasArgs<ExtArgs>
   _count?: boolean | Prisma.EmpleadoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empleado"]>
 
@@ -830,10 +916,9 @@ export type EmpleadoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   pin?: boolean
   telefono?: boolean
   direccion?: boolean
-  fotoUrl?: boolean
   isOnline?: boolean
   activo?: boolean
-  createdAt?: boolean
+  fotoUrl?: boolean
 }, ExtArgs["result"]["empleado"]>
 
 export type EmpleadoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -846,10 +931,9 @@ export type EmpleadoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   pin?: boolean
   telefono?: boolean
   direccion?: boolean
-  fotoUrl?: boolean
   isOnline?: boolean
   activo?: boolean
-  createdAt?: boolean
+  fotoUrl?: boolean
 }, ExtArgs["result"]["empleado"]>
 
 export type EmpleadoSelectScalar = {
@@ -862,16 +946,16 @@ export type EmpleadoSelectScalar = {
   pin?: boolean
   telefono?: boolean
   direccion?: boolean
-  fotoUrl?: boolean
   isOnline?: boolean
   activo?: boolean
-  createdAt?: boolean
+  fotoUrl?: boolean
 }
 
-export type EmpleadoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "apellido" | "documento" | "cuil" | "rol" | "pin" | "telefono" | "direccion" | "fotoUrl" | "isOnline" | "activo" | "createdAt", ExtArgs["result"]["empleado"]>
+export type EmpleadoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "apellido" | "documento" | "cuil" | "rol" | "pin" | "telefono" | "direccion" | "isOnline" | "activo" | "fotoUrl", ExtArgs["result"]["empleado"]>
 export type EmpleadoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  valores?: boolean | Prisma.Empleado$valoresArgs<ExtArgs>
   asistencias?: boolean | Prisma.Empleado$asistenciasArgs<ExtArgs>
+  valores?: boolean | Prisma.Empleado$valoresArgs<ExtArgs>
+  reservasCreadas?: boolean | Prisma.Empleado$reservasCreadasArgs<ExtArgs>
   _count?: boolean | Prisma.EmpleadoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EmpleadoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -880,8 +964,9 @@ export type EmpleadoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $EmpleadoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Empleado"
   objects: {
-    valores: Prisma.$ValorConceptoPayload<ExtArgs>[]
     asistencias: Prisma.$AsistenciaPayload<ExtArgs>[]
+    valores: Prisma.$ValorConceptoPayload<ExtArgs>[]
+    reservasCreadas: Prisma.$ReservaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -893,10 +978,9 @@ export type $EmpleadoPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     pin: string
     telefono: string | null
     direccion: string | null
-    fotoUrl: string | null
     isOnline: boolean
     activo: boolean
-    createdAt: Date
+    fotoUrl: string | null
   }, ExtArgs["result"]["empleado"]>
   composites: {}
 }
@@ -1291,8 +1375,9 @@ readonly fields: EmpleadoFieldRefs;
  */
 export interface Prisma__EmpleadoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  valores<T extends Prisma.Empleado$valoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$valoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ValorConceptoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   asistencias<T extends Prisma.Empleado$asistenciasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$asistenciasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AsistenciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  valores<T extends Prisma.Empleado$valoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$valoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ValorConceptoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reservasCreadas<T extends Prisma.Empleado$reservasCreadasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$reservasCreadasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1331,10 +1416,9 @@ export interface EmpleadoFieldRefs {
   readonly pin: Prisma.FieldRef<"Empleado", 'String'>
   readonly telefono: Prisma.FieldRef<"Empleado", 'String'>
   readonly direccion: Prisma.FieldRef<"Empleado", 'String'>
-  readonly fotoUrl: Prisma.FieldRef<"Empleado", 'String'>
   readonly isOnline: Prisma.FieldRef<"Empleado", 'Boolean'>
   readonly activo: Prisma.FieldRef<"Empleado", 'Boolean'>
-  readonly createdAt: Prisma.FieldRef<"Empleado", 'DateTime'>
+  readonly fotoUrl: Prisma.FieldRef<"Empleado", 'String'>
 }
     
 
@@ -1723,6 +1807,30 @@ export type EmpleadoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Empleado.asistencias
+ */
+export type Empleado$asistenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Asistencia
+   */
+  select?: Prisma.AsistenciaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Asistencia
+   */
+  omit?: Prisma.AsistenciaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AsistenciaInclude<ExtArgs> | null
+  where?: Prisma.AsistenciaWhereInput
+  orderBy?: Prisma.AsistenciaOrderByWithRelationInput | Prisma.AsistenciaOrderByWithRelationInput[]
+  cursor?: Prisma.AsistenciaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AsistenciaScalarFieldEnum | Prisma.AsistenciaScalarFieldEnum[]
+}
+
+/**
  * Empleado.valores
  */
 export type Empleado$valoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1747,27 +1855,27 @@ export type Empleado$valoresArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Empleado.asistencias
+ * Empleado.reservasCreadas
  */
-export type Empleado$asistenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Empleado$reservasCreadasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Asistencia
+   * Select specific fields to fetch from the Reserva
    */
-  select?: Prisma.AsistenciaSelect<ExtArgs> | null
+  select?: Prisma.ReservaSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Asistencia
+   * Omit specific fields from the Reserva
    */
-  omit?: Prisma.AsistenciaOmit<ExtArgs> | null
+  omit?: Prisma.ReservaOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AsistenciaInclude<ExtArgs> | null
-  where?: Prisma.AsistenciaWhereInput
-  orderBy?: Prisma.AsistenciaOrderByWithRelationInput | Prisma.AsistenciaOrderByWithRelationInput[]
-  cursor?: Prisma.AsistenciaWhereUniqueInput
+  include?: Prisma.ReservaInclude<ExtArgs> | null
+  where?: Prisma.ReservaWhereInput
+  orderBy?: Prisma.ReservaOrderByWithRelationInput | Prisma.ReservaOrderByWithRelationInput[]
+  cursor?: Prisma.ReservaWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.AsistenciaScalarFieldEnum | Prisma.AsistenciaScalarFieldEnum[]
+  distinct?: Prisma.ReservaScalarFieldEnum | Prisma.ReservaScalarFieldEnum[]
 }
 
 /**

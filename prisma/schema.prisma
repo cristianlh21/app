@@ -14,6 +14,8 @@ datasource db {
   provider = "postgresql"
 }
 
+// --- ENUMS ---
+
 enum Rol {
   ADMIN
   RECEPCIONISTA
@@ -22,79 +24,243 @@ enum Rol {
   COCINERO
 }
 
-model Empleado {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  apellido  String
-  documento String   @unique
-  cuil      String   @unique
-  rol       Rol      @default(RECEPCIONISTA)
-  pin       String   @unique // El código de 4 dígitos
-  telefono  String?
-  direccion String?
-  fotoUrl   String?
-  isOnline  Boolean  @default(false)
-  activo    Boolean  @default(true)
-  createdAt DateTime @default(now())
-
-  valores     ValorConcepto[] // Sus precios personalizados
-  asistencias Asistencia[]
+enum Piso {
+  PLANTA_BAJA
+  PRIMER_PISO
+  SEGUNDO_PISO
+  TERCER_PISO
+  CUARTO_PISO
 }
 
+enum Disponibilidad {
+  LIBRE
+  OCUPADA
+}
+
+enum EstadoLimpieza {
+  LIMPIA
+  SUCIA
+  EN_MANTENIMIENTO
+}
+
+enum EstadoReserva {
+  PENDIENTE
+  CONFIRMADA
+  CANCELADA
+  CHECK_IN
+  CHECK_OUT
+  NO_SHOW
+}
+
+enum MetodoPago {
+  EFECTIVO
+  TRANSFERENCIA
+  TARJETA_DEBITO
+  TARJETA_CREDITO
+}
+
+// --- MODELOS DE PERSONAL ---
+
+model Empleado {
+  id          Int             @id @default(autoincrement())
+  nombre      String
+  apellido    String
+  documento   String          @unique
+  cuil        String          @unique
+  rol         Rol             @default(RECEPCIONISTA)
+  pin         String          @unique
+  telefono    String?
+  direccion   String?
+  isOnline    Boolean         @default(false)
+  activo      Boolean         @default(true)
+  fotoUrl     String?
+  // --- RELACIONES EXISTENTES (RRHH) ---
+  asistencias Asistencia[]
+  valores     ValorConcepto[]
+
+  // --- RELACIÓN NUEVA (HOTEL) ---
+  reservasCreadas Reserva[] // Para saber qué empleado hizo cada reserva
+}
+
+// --- MODELOS DE HABITACIÓN ---
+
+model TipoHabitacion {
+  id              Int     @id @default(autoincrement())
+  nombre          String  @unique // Ej: "Individual", "Doble Twin"
+  precioBase      Decimal @db.Decimal(10, 2)
+  capacidadMaxima Int
+
+  // Relaciones inversas (necesitan nombres porque son dos)
+  habitacionesBase   Habitacion[]    @relation("HabitacionBase")
+  habitacionesActual Habitacion[]    @relation("HabitacionActual")
+  reservasVendidas ReservaHabitacion[]
+}
+
+model Habitacion {
+  id         Int            @id @default(autoincrement())
+  numero     String         @unique
+  piso       Piso
+  // Tipo original de la habitación
+  tipoBaseId       Int
+  tipoBase         TipoHabitacion @relation("HabitacionBase", fields: [tipoBaseId], references: [id])
+  
+  // Tipo como el que se está ofreciendo/vendiendo ahora
+  tipoActualId     Int
+  tipoActual       TipoHabitacion @relation("HabitacionActual", fields: [tipoActualId], references: [id])
+
+  disponibilidad Disponibilidad @default(LIBRE)
+  estadoLimpieza EstadoLimpieza @default(LIMPIA)
+
+  reservas ReservaHabitacion[]
+}
+
+// --- MODELOS DE PERSONAS ---
+
+model Cliente {
+  id        Int     @id @default(autoincrement())
+  nombre    String // Empresa o Persona que reserva
+  documento String  @unique
+  telefono  String?
+  email     String?
+  esEmpresa Boolean @default(false)
+
+  reservas Reserva[]
+}
+
+model Huesped {
+  id           Int     @id @default(autoincrement())
+  nombre       String
+  apellido     String
+  documento    String  @unique
+  nacionalidad String?
+
+  ocupaciones OcupacionHuesped[]
+}
+
+// --- MODELOS DE RESERVA Y CONSUMO ---
+
+model Reserva {
+  id            Int           @id @default(autoincrement())
+  fechaReserva  DateTime      @default(now())
+  fechaCheckIn  DateTime
+  fechaCheckOut DateTime
+  estado        EstadoReserva @default(PENDIENTE)
+
+  clienteId Int
+  cliente   Cliente @relation(fields: [clienteId], references: [id])
+
+  // Auditoría: Quién realizó la reserva
+  empleadoId Int
+  empleado   Empleado @relation(fields: [empleadoId], references: [id])
+
+  habitaciones ReservaHabitacion[]
+  pagos        Pago[]
+  cargosExtras CargoExtra[]
+
+  totalReserva  Decimal @db.Decimal(10, 2)
+  observaciones String?
+}
+
+model ReservaHabitacion {
+  id           Int        @id @default(autoincrement())
+  reservaId    Int
+  reserva      Reserva    @relation(fields: [reservaId], references: [id])
+  habitacionId Int
+  habitacion   Habitacion @relation(fields: [habitacionId], references: [id])
+
+  tipoVendidoId  Int
+  tipoVendido    TipoHabitacion @relation(fields: [tipoVendidoId], references: [id])
+  precioAplicado Decimal        @db.Decimal(10, 2)
+
+  huespedes OcupacionHuesped[]
+}
+
+model OcupacionHuesped {
+  id                  Int               @id @default(autoincrement())
+  reservaHabitacionId Int
+  reservaHabitacion   ReservaHabitacion @relation(fields: [reservaHabitacionId], references: [id])
+  huespedId           Int
+  huesped             Huesped           @relation(fields: [huespedId], references: [id])
+
+  @@unique([reservaHabitacionId, huespedId])
+}
+
+// --- FINANZAS Y ASISTENCIA ---
+
+model Pago {
+  id         Int        @id @default(autoincrement())
+  reservaId  Int
+  reserva    Reserva    @relation(fields: [reservaId], references: [id])
+  monto      Decimal    @db.Decimal(10, 2)
+  fecha      DateTime   @default(now())
+  metodo     MetodoPago
+  esAdelanto Boolean    @default(false)
+}
+
+model CargoExtra {
+  id          Int     @id @default(autoincrement())
+  reservaId   Int
+  reserva     Reserva @relation(fields: [reservaId], references: [id])
+  descripcion String // Ej: "Cochera", "Cafetería"
+  monto       Decimal @db.Decimal(10, 2)
+  cantidad    Int     @default(1)
+}
+
+// Modelos de RRHH existentes
 model Asistencia {
   id            Int      @id @default(autoincrement())
   empleadoId    Int
   empleado      Empleado @relation(fields: [empleadoId], references: [id])
-  fecha         DateTime @default(now()) @db.Date // Para agrupar por día
-  tipo          String // "ENTRADA" o "SALIDA"
+  fecha         DateTime @default(now()) @db.Date
+  tipo          String
   hora          DateTime @default(now())
-  turno         String // "MAÑANA", "TARDE", "NOCHE"
-  registradoPor Int // ID del Recepcionista que hizo el clic
+  turno         String
+  registradoPor Int
 }
 
 // Definición de los ítems posibles (El "Menú" de pagos)
 model Concepto {
-  id          Int      @id @default(autoincrement())
-  nombre      String   // Ej: "Hora Base", "Viáticos", "Presentismo"
-  tipo        String   // "INGRESO" (Suma) o "DESCUENTO" (Resta)
-  codigo      String   @unique // Ej: "HORA_BASE"
-  valores     ValorConcepto[]
+  id      Int             @id @default(autoincrement())
+  nombre  String // Ej: "Hora Base", "Viáticos", "Presentismo"
+  tipo    String // "INGRESO" (Suma) o "DESCUENTO" (Resta)
+  codigo  String          @unique // Ej: "HORA_BASE"
+  valores ValorConcepto[]
 }
 
 model ValorConcepto {
-  id          Int      @id @default(autoincrement())
-  monto       Decimal  @db.Decimal(10, 2)
-  empleadoId  Int
-  empleado    Empleado @relation(fields: [empleadoId], references: [id])
-  conceptoId  Int
-  concepto    Concepto @relation(fields: [conceptoId], references: [id])
+  id         Int      @id @default(autoincrement())
+  monto      Decimal  @db.Decimal(10, 2)
+  empleadoId Int
+  empleado   Empleado @relation(fields: [empleadoId], references: [id])
+  conceptoId Int
+  concepto   Concepto @relation(fields: [conceptoId], references: [id])
 
   @@unique([empleadoId, conceptoId])
 }
 
 model ReciboSueldo {
-  id              Int      @id @default(autoincrement())
-  empleadoId      Int
-  periodo         String   // Ej: "2026-02"
-  fechaEmision    DateTime @default(now())
-  
+  id           Int      @id @default(autoincrement())
+  empleadoId   Int
+  periodo      String // Ej: "2026-02"
+  fechaEmision DateTime @default(now())
+
   // Totales finales
   totalHaberes    Decimal
   totalDescuentos Decimal
   netoACobrar     Decimal
 
   // Relación con los detalles del recibo
-  detalles        DetalleRecibo[]
+  detalles DetalleRecibo[]
 }
 
 model DetalleRecibo {
-  id             Int      @id @default(autoincrement())
-  reciboId       Int
-  recibo         ReciboSueldo @relation(fields: [reciboId], references: [id])
-  
-  concepto       String   // Ej: "Sueldo Básico", "Jubilación"
-  cantidad       Float?   // Ej: 30 (días) o 11 (%)
-  base           Decimal? // Ej: El sueldo bruto sobre el que se calcula el %
-  haberes        Decimal? // Monto que suma
-  descuentos     Decimal? // Monto que resta
+  id       Int          @id @default(autoincrement())
+  reciboId Int
+  recibo   ReciboSueldo @relation(fields: [reciboId], references: [id])
+
+  concepto   String // Ej: "Sueldo Básico", "Jubilación"
+  cantidad   Float? // Ej: 30 (días) o 11 (%)
+  base       Decimal? // Ej: El sueldo bruto sobre el que se calcula el %
+  haberes    Decimal? // Monto que suma
+  descuentos Decimal? // Monto que resta
 }

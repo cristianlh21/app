@@ -52,6 +52,15 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Empleado: 'Empleado',
+  TipoHabitacion: 'TipoHabitacion',
+  Habitacion: 'Habitacion',
+  Cliente: 'Cliente',
+  Huesped: 'Huesped',
+  Reserva: 'Reserva',
+  ReservaHabitacion: 'ReservaHabitacion',
+  OcupacionHuesped: 'OcupacionHuesped',
+  Pago: 'Pago',
+  CargoExtra: 'CargoExtra',
   Asistencia: 'Asistencia',
   Concepto: 'Concepto',
   ValorConcepto: 'ValorConcepto',
@@ -85,13 +94,116 @@ export const EmpleadoScalarFieldEnum = {
   pin: 'pin',
   telefono: 'telefono',
   direccion: 'direccion',
-  fotoUrl: 'fotoUrl',
   isOnline: 'isOnline',
   activo: 'activo',
-  createdAt: 'createdAt'
+  fotoUrl: 'fotoUrl'
 } as const
 
 export type EmpleadoScalarFieldEnum = (typeof EmpleadoScalarFieldEnum)[keyof typeof EmpleadoScalarFieldEnum]
+
+
+export const TipoHabitacionScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  precioBase: 'precioBase',
+  capacidadMaxima: 'capacidadMaxima'
+} as const
+
+export type TipoHabitacionScalarFieldEnum = (typeof TipoHabitacionScalarFieldEnum)[keyof typeof TipoHabitacionScalarFieldEnum]
+
+
+export const HabitacionScalarFieldEnum = {
+  id: 'id',
+  numero: 'numero',
+  piso: 'piso',
+  tipoBaseId: 'tipoBaseId',
+  tipoActualId: 'tipoActualId',
+  disponibilidad: 'disponibilidad',
+  estadoLimpieza: 'estadoLimpieza'
+} as const
+
+export type HabitacionScalarFieldEnum = (typeof HabitacionScalarFieldEnum)[keyof typeof HabitacionScalarFieldEnum]
+
+
+export const ClienteScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  documento: 'documento',
+  telefono: 'telefono',
+  email: 'email',
+  esEmpresa: 'esEmpresa'
+} as const
+
+export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
+
+
+export const HuespedScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  apellido: 'apellido',
+  documento: 'documento',
+  nacionalidad: 'nacionalidad'
+} as const
+
+export type HuespedScalarFieldEnum = (typeof HuespedScalarFieldEnum)[keyof typeof HuespedScalarFieldEnum]
+
+
+export const ReservaScalarFieldEnum = {
+  id: 'id',
+  fechaReserva: 'fechaReserva',
+  fechaCheckIn: 'fechaCheckIn',
+  fechaCheckOut: 'fechaCheckOut',
+  estado: 'estado',
+  clienteId: 'clienteId',
+  empleadoId: 'empleadoId',
+  totalReserva: 'totalReserva',
+  observaciones: 'observaciones'
+} as const
+
+export type ReservaScalarFieldEnum = (typeof ReservaScalarFieldEnum)[keyof typeof ReservaScalarFieldEnum]
+
+
+export const ReservaHabitacionScalarFieldEnum = {
+  id: 'id',
+  reservaId: 'reservaId',
+  habitacionId: 'habitacionId',
+  tipoVendidoId: 'tipoVendidoId',
+  precioAplicado: 'precioAplicado'
+} as const
+
+export type ReservaHabitacionScalarFieldEnum = (typeof ReservaHabitacionScalarFieldEnum)[keyof typeof ReservaHabitacionScalarFieldEnum]
+
+
+export const OcupacionHuespedScalarFieldEnum = {
+  id: 'id',
+  reservaHabitacionId: 'reservaHabitacionId',
+  huespedId: 'huespedId'
+} as const
+
+export type OcupacionHuespedScalarFieldEnum = (typeof OcupacionHuespedScalarFieldEnum)[keyof typeof OcupacionHuespedScalarFieldEnum]
+
+
+export const PagoScalarFieldEnum = {
+  id: 'id',
+  reservaId: 'reservaId',
+  monto: 'monto',
+  fecha: 'fecha',
+  metodo: 'metodo',
+  esAdelanto: 'esAdelanto'
+} as const
+
+export type PagoScalarFieldEnum = (typeof PagoScalarFieldEnum)[keyof typeof PagoScalarFieldEnum]
+
+
+export const CargoExtraScalarFieldEnum = {
+  id: 'id',
+  reservaId: 'reservaId',
+  descripcion: 'descripcion',
+  monto: 'monto',
+  cantidad: 'cantidad'
+} as const
+
+export type CargoExtraScalarFieldEnum = (typeof CargoExtraScalarFieldEnum)[keyof typeof CargoExtraScalarFieldEnum]
 
 
 export const AsistenciaScalarFieldEnum = {
