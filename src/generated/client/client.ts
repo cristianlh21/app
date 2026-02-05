@@ -49,3 +49,23 @@ export type Empleado = Prisma.EmpleadoModel
  * 
  */
 export type Asistencia = Prisma.AsistenciaModel
+/**
+ * Model Concepto
+ * 
+ */
+export type Concepto = Prisma.ConceptoModel
+/**
+ * Model ValorConcepto
+ * 
+ */
+export type ValorConcepto = Prisma.ValorConceptoModel
+/**
+ * Model ReciboSueldo
+ * 
+ */
+export type ReciboSueldo = Prisma.ReciboSueldoModel
+/**
+ * Model DetalleRecibo
+ * 
+ */
+export type DetalleRecibo = Prisma.DetalleReciboModel

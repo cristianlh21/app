@@ -280,6 +280,7 @@ export type EmpleadoWhereInput = {
   isOnline?: Prisma.BoolFilter<"Empleado"> | boolean
   activo?: Prisma.BoolFilter<"Empleado"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Empleado"> | Date | string
+  valores?: Prisma.ValorConceptoListRelationFilter
   asistencias?: Prisma.AsistenciaListRelationFilter
 }
 
@@ -297,6 +298,7 @@ export type EmpleadoOrderByWithRelationInput = {
   isOnline?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  valores?: Prisma.ValorConceptoOrderByRelationAggregateInput
   asistencias?: Prisma.AsistenciaOrderByRelationAggregateInput
 }
 
@@ -317,6 +319,7 @@ export type EmpleadoWhereUniqueInput = Prisma.AtLeast<{
   isOnline?: Prisma.BoolFilter<"Empleado"> | boolean
   activo?: Prisma.BoolFilter<"Empleado"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Empleado"> | Date | string
+  valores?: Prisma.ValorConceptoListRelationFilter
   asistencias?: Prisma.AsistenciaListRelationFilter
 }, "id" | "documento" | "cuil" | "pin">
 
@@ -373,6 +376,7 @@ export type EmpleadoCreateInput = {
   isOnline?: boolean
   activo?: boolean
   createdAt?: Date | string
+  valores?: Prisma.ValorConceptoCreateNestedManyWithoutEmpleadoInput
   asistencias?: Prisma.AsistenciaCreateNestedManyWithoutEmpleadoInput
 }
 
@@ -390,6 +394,7 @@ export type EmpleadoUncheckedCreateInput = {
   isOnline?: boolean
   activo?: boolean
   createdAt?: Date | string
+  valores?: Prisma.ValorConceptoUncheckedCreateNestedManyWithoutEmpleadoInput
   asistencias?: Prisma.AsistenciaUncheckedCreateNestedManyWithoutEmpleadoInput
 }
 
@@ -406,6 +411,7 @@ export type EmpleadoUpdateInput = {
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  valores?: Prisma.ValorConceptoUpdateManyWithoutEmpleadoNestedInput
   asistencias?: Prisma.AsistenciaUpdateManyWithoutEmpleadoNestedInput
 }
 
@@ -423,6 +429,7 @@ export type EmpleadoUncheckedUpdateInput = {
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  valores?: Prisma.ValorConceptoUncheckedUpdateManyWithoutEmpleadoNestedInput
   asistencias?: Prisma.AsistenciaUncheckedUpdateManyWithoutEmpleadoNestedInput
 }
 
@@ -576,6 +583,20 @@ export type EmpleadoUpdateOneRequiredWithoutAsistenciasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpleadoUpdateToOneWithWhereWithoutAsistenciasInput, Prisma.EmpleadoUpdateWithoutAsistenciasInput>, Prisma.EmpleadoUncheckedUpdateWithoutAsistenciasInput>
 }
 
+export type EmpleadoCreateNestedOneWithoutValoresInput = {
+  create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutValoresInput, Prisma.EmpleadoUncheckedCreateWithoutValoresInput>
+  connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutValoresInput
+  connect?: Prisma.EmpleadoWhereUniqueInput
+}
+
+export type EmpleadoUpdateOneRequiredWithoutValoresNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutValoresInput, Prisma.EmpleadoUncheckedCreateWithoutValoresInput>
+  connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutValoresInput
+  upsert?: Prisma.EmpleadoUpsertWithoutValoresInput
+  connect?: Prisma.EmpleadoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpleadoUpdateToOneWithWhereWithoutValoresInput, Prisma.EmpleadoUpdateWithoutValoresInput>, Prisma.EmpleadoUncheckedUpdateWithoutValoresInput>
+}
+
 export type EmpleadoCreateWithoutAsistenciasInput = {
   nombre: string
   apellido: string
@@ -589,6 +610,7 @@ export type EmpleadoCreateWithoutAsistenciasInput = {
   isOnline?: boolean
   activo?: boolean
   createdAt?: Date | string
+  valores?: Prisma.ValorConceptoCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoUncheckedCreateWithoutAsistenciasInput = {
@@ -605,6 +627,7 @@ export type EmpleadoUncheckedCreateWithoutAsistenciasInput = {
   isOnline?: boolean
   activo?: boolean
   createdAt?: Date | string
+  valores?: Prisma.ValorConceptoUncheckedCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoCreateOrConnectWithoutAsistenciasInput = {
@@ -636,6 +659,7 @@ export type EmpleadoUpdateWithoutAsistenciasInput = {
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  valores?: Prisma.ValorConceptoUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoUncheckedUpdateWithoutAsistenciasInput = {
@@ -652,6 +676,89 @@ export type EmpleadoUncheckedUpdateWithoutAsistenciasInput = {
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  valores?: Prisma.ValorConceptoUncheckedUpdateManyWithoutEmpleadoNestedInput
+}
+
+export type EmpleadoCreateWithoutValoresInput = {
+  nombre: string
+  apellido: string
+  documento: string
+  cuil: string
+  rol?: $Enums.Rol
+  pin: string
+  telefono?: string | null
+  direccion?: string | null
+  fotoUrl?: string | null
+  isOnline?: boolean
+  activo?: boolean
+  createdAt?: Date | string
+  asistencias?: Prisma.AsistenciaCreateNestedManyWithoutEmpleadoInput
+}
+
+export type EmpleadoUncheckedCreateWithoutValoresInput = {
+  id?: number
+  nombre: string
+  apellido: string
+  documento: string
+  cuil: string
+  rol?: $Enums.Rol
+  pin: string
+  telefono?: string | null
+  direccion?: string | null
+  fotoUrl?: string | null
+  isOnline?: boolean
+  activo?: boolean
+  createdAt?: Date | string
+  asistencias?: Prisma.AsistenciaUncheckedCreateNestedManyWithoutEmpleadoInput
+}
+
+export type EmpleadoCreateOrConnectWithoutValoresInput = {
+  where: Prisma.EmpleadoWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpleadoCreateWithoutValoresInput, Prisma.EmpleadoUncheckedCreateWithoutValoresInput>
+}
+
+export type EmpleadoUpsertWithoutValoresInput = {
+  update: Prisma.XOR<Prisma.EmpleadoUpdateWithoutValoresInput, Prisma.EmpleadoUncheckedUpdateWithoutValoresInput>
+  create: Prisma.XOR<Prisma.EmpleadoCreateWithoutValoresInput, Prisma.EmpleadoUncheckedCreateWithoutValoresInput>
+  where?: Prisma.EmpleadoWhereInput
+}
+
+export type EmpleadoUpdateToOneWithWhereWithoutValoresInput = {
+  where?: Prisma.EmpleadoWhereInput
+  data: Prisma.XOR<Prisma.EmpleadoUpdateWithoutValoresInput, Prisma.EmpleadoUncheckedUpdateWithoutValoresInput>
+}
+
+export type EmpleadoUpdateWithoutValoresInput = {
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  documento?: Prisma.StringFieldUpdateOperationsInput | string
+  cuil?: Prisma.StringFieldUpdateOperationsInput | string
+  rol?: Prisma.EnumRolFieldUpdateOperationsInput | $Enums.Rol
+  pin?: Prisma.StringFieldUpdateOperationsInput | string
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  asistencias?: Prisma.AsistenciaUpdateManyWithoutEmpleadoNestedInput
+}
+
+export type EmpleadoUncheckedUpdateWithoutValoresInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  documento?: Prisma.StringFieldUpdateOperationsInput | string
+  cuil?: Prisma.StringFieldUpdateOperationsInput | string
+  rol?: Prisma.EnumRolFieldUpdateOperationsInput | $Enums.Rol
+  pin?: Prisma.StringFieldUpdateOperationsInput | string
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  asistencias?: Prisma.AsistenciaUncheckedUpdateManyWithoutEmpleadoNestedInput
 }
 
 
@@ -660,10 +767,12 @@ export type EmpleadoUncheckedUpdateWithoutAsistenciasInput = {
  */
 
 export type EmpleadoCountOutputType = {
+  valores: number
   asistencias: number
 }
 
 export type EmpleadoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  valores?: boolean | EmpleadoCountOutputTypeCountValoresArgs
   asistencias?: boolean | EmpleadoCountOutputTypeCountAsistenciasArgs
 }
 
@@ -675,6 +784,13 @@ export type EmpleadoCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
    * Select specific fields to fetch from the EmpleadoCountOutputType
    */
   select?: Prisma.EmpleadoCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * EmpleadoCountOutputType without action
+ */
+export type EmpleadoCountOutputTypeCountValoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ValorConceptoWhereInput
 }
 
 /**
@@ -699,6 +815,7 @@ export type EmpleadoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   isOnline?: boolean
   activo?: boolean
   createdAt?: boolean
+  valores?: boolean | Prisma.Empleado$valoresArgs<ExtArgs>
   asistencias?: boolean | Prisma.Empleado$asistenciasArgs<ExtArgs>
   _count?: boolean | Prisma.EmpleadoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empleado"]>
@@ -753,6 +870,7 @@ export type EmpleadoSelectScalar = {
 
 export type EmpleadoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "apellido" | "documento" | "cuil" | "rol" | "pin" | "telefono" | "direccion" | "fotoUrl" | "isOnline" | "activo" | "createdAt", ExtArgs["result"]["empleado"]>
 export type EmpleadoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  valores?: boolean | Prisma.Empleado$valoresArgs<ExtArgs>
   asistencias?: boolean | Prisma.Empleado$asistenciasArgs<ExtArgs>
   _count?: boolean | Prisma.EmpleadoCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -762,6 +880,7 @@ export type EmpleadoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $EmpleadoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Empleado"
   objects: {
+    valores: Prisma.$ValorConceptoPayload<ExtArgs>[]
     asistencias: Prisma.$AsistenciaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1172,6 +1291,7 @@ readonly fields: EmpleadoFieldRefs;
  */
 export interface Prisma__EmpleadoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  valores<T extends Prisma.Empleado$valoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$valoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ValorConceptoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   asistencias<T extends Prisma.Empleado$asistenciasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$asistenciasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AsistenciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1600,6 +1720,30 @@ export type EmpleadoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Empleados to delete.
    */
   limit?: number
+}
+
+/**
+ * Empleado.valores
+ */
+export type Empleado$valoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ValorConcepto
+   */
+  select?: Prisma.ValorConceptoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ValorConcepto
+   */
+  omit?: Prisma.ValorConceptoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ValorConceptoInclude<ExtArgs> | null
+  where?: Prisma.ValorConceptoWhereInput
+  orderBy?: Prisma.ValorConceptoOrderByWithRelationInput | Prisma.ValorConceptoOrderByWithRelationInput[]
+  cursor?: Prisma.ValorConceptoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ValorConceptoScalarFieldEnum | Prisma.ValorConceptoScalarFieldEnum[]
 }
 
 /**

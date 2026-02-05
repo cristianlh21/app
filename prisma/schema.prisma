@@ -71,3 +71,30 @@ model ValorConcepto {
 
   @@unique([empleadoId, conceptoId])
 }
+
+model ReciboSueldo {
+  id              Int      @id @default(autoincrement())
+  empleadoId      Int
+  periodo         String   // Ej: "2026-02"
+  fechaEmision    DateTime @default(now())
+  
+  // Totales finales
+  totalHaberes    Decimal
+  totalDescuentos Decimal
+  netoACobrar     Decimal
+
+  // Relación con los detalles del recibo
+  detalles        DetalleRecibo[]
+}
+
+model DetalleRecibo {
+  id             Int      @id @default(autoincrement())
+  reciboId       Int
+  recibo         ReciboSueldo @relation(fields: [reciboId], references: [id])
+  
+  concepto       String   // Ej: "Sueldo Básico", "Jubilación"
+  cantidad       Float?   // Ej: 30 (días) o 11 (%)
+  base           Decimal? // Ej: El sueldo bruto sobre el que se calcula el %
+  haberes        Decimal? // Monto que suma
+  descuentos     Decimal? // Monto que resta
+}

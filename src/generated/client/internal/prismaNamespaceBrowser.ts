@@ -52,7 +52,11 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Empleado: 'Empleado',
-  Asistencia: 'Asistencia'
+  Asistencia: 'Asistencia',
+  Concepto: 'Concepto',
+  ValorConcepto: 'ValorConcepto',
+  ReciboSueldo: 'ReciboSueldo',
+  DetalleRecibo: 'DetalleRecibo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -101,6 +105,52 @@ export const AsistenciaScalarFieldEnum = {
 } as const
 
 export type AsistenciaScalarFieldEnum = (typeof AsistenciaScalarFieldEnum)[keyof typeof AsistenciaScalarFieldEnum]
+
+
+export const ConceptoScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  tipo: 'tipo',
+  codigo: 'codigo'
+} as const
+
+export type ConceptoScalarFieldEnum = (typeof ConceptoScalarFieldEnum)[keyof typeof ConceptoScalarFieldEnum]
+
+
+export const ValorConceptoScalarFieldEnum = {
+  id: 'id',
+  monto: 'monto',
+  empleadoId: 'empleadoId',
+  conceptoId: 'conceptoId'
+} as const
+
+export type ValorConceptoScalarFieldEnum = (typeof ValorConceptoScalarFieldEnum)[keyof typeof ValorConceptoScalarFieldEnum]
+
+
+export const ReciboSueldoScalarFieldEnum = {
+  id: 'id',
+  empleadoId: 'empleadoId',
+  periodo: 'periodo',
+  fechaEmision: 'fechaEmision',
+  totalHaberes: 'totalHaberes',
+  totalDescuentos: 'totalDescuentos',
+  netoACobrar: 'netoACobrar'
+} as const
+
+export type ReciboSueldoScalarFieldEnum = (typeof ReciboSueldoScalarFieldEnum)[keyof typeof ReciboSueldoScalarFieldEnum]
+
+
+export const DetalleReciboScalarFieldEnum = {
+  id: 'id',
+  reciboId: 'reciboId',
+  concepto: 'concepto',
+  cantidad: 'cantidad',
+  base: 'base',
+  haberes: 'haberes',
+  descuentos: 'descuentos'
+} as const
+
+export type DetalleReciboScalarFieldEnum = (typeof DetalleReciboScalarFieldEnum)[keyof typeof DetalleReciboScalarFieldEnum]
 
 
 export const SortOrder = {

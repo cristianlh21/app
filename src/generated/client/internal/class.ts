@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider   = \"prisma-client\"\n  engineType = \"library\"\n  output     = \"../src/generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Rol {\n  ADMIN\n  RECEPCIONISTA\n  MUCAMA\n  MOZO\n  COCINERO\n}\n\nmodel Empleado {\n  id        Int      @id @default(autoincrement())\n  nombre    String\n  apellido  String\n  documento String   @unique\n  cuil      String   @unique\n  rol       Rol      @default(RECEPCIONISTA)\n  pin       String   @unique // El código de 4 dígitos\n  telefono  String?\n  direccion String?\n  fotoUrl   String?\n  isOnline  Boolean  @default(false)\n  activo    Boolean  @default(true)\n  createdAt DateTime @default(now())\n\n  asistencias Asistencia[]\n}\n\nmodel Asistencia {\n  id            Int      @id @default(autoincrement())\n  empleadoId    Int\n  empleado      Empleado @relation(fields: [empleadoId], references: [id])\n  fecha         DateTime @default(now()) @db.Date // Para agrupar por día\n  tipo          String // \"ENTRADA\" o \"SALIDA\"\n  hora          DateTime @default(now())\n  turno         String // \"MAÑANA\", \"TARDE\", \"NOCHE\"\n  registradoPor Int // ID del Recepcionista que hizo el clic\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider   = \"prisma-client\"\n  engineType = \"library\"\n  output     = \"../src/generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Rol {\n  ADMIN\n  RECEPCIONISTA\n  MUCAMA\n  MOZO\n  COCINERO\n}\n\nmodel Empleado {\n  id        Int      @id @default(autoincrement())\n  nombre    String\n  apellido  String\n  documento String   @unique\n  cuil      String   @unique\n  rol       Rol      @default(RECEPCIONISTA)\n  pin       String   @unique // El código de 4 dígitos\n  telefono  String?\n  direccion String?\n  fotoUrl   String?\n  isOnline  Boolean  @default(false)\n  activo    Boolean  @default(true)\n  createdAt DateTime @default(now())\n\n  valores     ValorConcepto[] // Sus precios personalizados\n  asistencias Asistencia[]\n}\n\nmodel Asistencia {\n  id            Int      @id @default(autoincrement())\n  empleadoId    Int\n  empleado      Empleado @relation(fields: [empleadoId], references: [id])\n  fecha         DateTime @default(now()) @db.Date // Para agrupar por día\n  tipo          String // \"ENTRADA\" o \"SALIDA\"\n  hora          DateTime @default(now())\n  turno         String // \"MAÑANA\", \"TARDE\", \"NOCHE\"\n  registradoPor Int // ID del Recepcionista que hizo el clic\n}\n\n// Definición de los ítems posibles (El \"Menú\" de pagos)\nmodel Concepto {\n  id      Int             @id @default(autoincrement())\n  nombre  String // Ej: \"Hora Base\", \"Viáticos\", \"Presentismo\"\n  tipo    String // \"INGRESO\" (Suma) o \"DESCUENTO\" (Resta)\n  codigo  String          @unique // Ej: \"HORA_BASE\"\n  valores ValorConcepto[]\n}\n\nmodel ValorConcepto {\n  id         Int      @id @default(autoincrement())\n  monto      Decimal  @db.Decimal(10, 2)\n  empleadoId Int\n  empleado   Empleado @relation(fields: [empleadoId], references: [id])\n  conceptoId Int\n  concepto   Concepto @relation(fields: [conceptoId], references: [id])\n\n  @@unique([empleadoId, conceptoId])\n}\n\nmodel ReciboSueldo {\n  id           Int      @id @default(autoincrement())\n  empleadoId   Int\n  periodo      String // Ej: \"2026-02\"\n  fechaEmision DateTime @default(now())\n\n  // Totales finales\n  totalHaberes    Decimal\n  totalDescuentos Decimal\n  netoACobrar     Decimal\n\n  // Relación con los detalles del recibo\n  detalles DetalleRecibo[]\n}\n\nmodel DetalleRecibo {\n  id       Int          @id @default(autoincrement())\n  reciboId Int\n  recibo   ReciboSueldo @relation(fields: [reciboId], references: [id])\n\n  concepto   String // Ej: \"Sueldo Básico\", \"Jubilación\"\n  cantidad   Float? // Ej: 30 (días) o 11 (%)\n  base       Decimal? // Ej: El sueldo bruto sobre el que se calcula el %\n  haberes    Decimal? // Monto que suma\n  descuentos Decimal? // Monto que resta\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Empleado\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nombre\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"apellido\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"documento\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cuil\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rol\",\"kind\":\"enum\",\"type\":\"Rol\"},{\"name\":\"pin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telefono\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"direccion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fotoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isOnline\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"activo\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"asistencias\",\"kind\":\"object\",\"type\":\"Asistencia\",\"relationName\":\"AsistenciaToEmpleado\"}],\"dbName\":null},\"Asistencia\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"empleadoId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"empleado\",\"kind\":\"object\",\"type\":\"Empleado\",\"relationName\":\"AsistenciaToEmpleado\"},{\"name\":\"fecha\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tipo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hora\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"turno\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"registradoPor\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Empleado\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nombre\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"apellido\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"documento\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cuil\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rol\",\"kind\":\"enum\",\"type\":\"Rol\"},{\"name\":\"pin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telefono\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"direccion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fotoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isOnline\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"activo\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"valores\",\"kind\":\"object\",\"type\":\"ValorConcepto\",\"relationName\":\"EmpleadoToValorConcepto\"},{\"name\":\"asistencias\",\"kind\":\"object\",\"type\":\"Asistencia\",\"relationName\":\"AsistenciaToEmpleado\"}],\"dbName\":null},\"Asistencia\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"empleadoId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"empleado\",\"kind\":\"object\",\"type\":\"Empleado\",\"relationName\":\"AsistenciaToEmpleado\"},{\"name\":\"fecha\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tipo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hora\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"turno\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"registradoPor\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Concepto\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nombre\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tipo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"codigo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"valores\",\"kind\":\"object\",\"type\":\"ValorConcepto\",\"relationName\":\"ConceptoToValorConcepto\"}],\"dbName\":null},\"ValorConcepto\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"monto\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"empleadoId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"empleado\",\"kind\":\"object\",\"type\":\"Empleado\",\"relationName\":\"EmpleadoToValorConcepto\"},{\"name\":\"conceptoId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"concepto\",\"kind\":\"object\",\"type\":\"Concepto\",\"relationName\":\"ConceptoToValorConcepto\"}],\"dbName\":null},\"ReciboSueldo\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"empleadoId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"periodo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fechaEmision\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"totalHaberes\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"totalDescuentos\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"netoACobrar\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"detalles\",\"kind\":\"object\",\"type\":\"DetalleRecibo\",\"relationName\":\"DetalleReciboToReciboSueldo\"}],\"dbName\":null},\"DetalleRecibo\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"reciboId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"recibo\",\"kind\":\"object\",\"type\":\"ReciboSueldo\",\"relationName\":\"DetalleReciboToReciboSueldo\"},{\"name\":\"concepto\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cantidad\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"base\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"haberes\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"descuentos\",\"kind\":\"scalar\",\"type\":\"Decimal\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -195,6 +195,46 @@ export interface PrismaClient<
     * ```
     */
   get asistencia(): Prisma.AsistenciaDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.concepto`: Exposes CRUD operations for the **Concepto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Conceptos
+    * const conceptos = await prisma.concepto.findMany()
+    * ```
+    */
+  get concepto(): Prisma.ConceptoDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.valorConcepto`: Exposes CRUD operations for the **ValorConcepto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ValorConceptos
+    * const valorConceptos = await prisma.valorConcepto.findMany()
+    * ```
+    */
+  get valorConcepto(): Prisma.ValorConceptoDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.reciboSueldo`: Exposes CRUD operations for the **ReciboSueldo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReciboSueldos
+    * const reciboSueldos = await prisma.reciboSueldo.findMany()
+    * ```
+    */
+  get reciboSueldo(): Prisma.ReciboSueldoDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.detalleRecibo`: Exposes CRUD operations for the **DetalleRecibo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DetalleRecibos
+    * const detalleRecibos = await prisma.detalleRecibo.findMany()
+    * ```
+    */
+  get detalleRecibo(): Prisma.DetalleReciboDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

@@ -10,4 +10,8 @@
  */
 export type * from './models/Empleado'
 export type * from './models/Asistencia'
+export type * from './models/Concepto'
+export type * from './models/ValorConcepto'
+export type * from './models/ReciboSueldo'
+export type * from './models/DetalleRecibo'
 export type * from './commonInputTypes'
