@@ -43,6 +43,7 @@ export type PagoMinAggregateOutputType = {
   reservaId: number | null
   monto: runtime.Decimal | null
   fecha: Date | null
+  referencia: string | null
   metodo: $Enums.MetodoPago | null
   esAdelanto: boolean | null
 }
@@ -52,6 +53,7 @@ export type PagoMaxAggregateOutputType = {
   reservaId: number | null
   monto: runtime.Decimal | null
   fecha: Date | null
+  referencia: string | null
   metodo: $Enums.MetodoPago | null
   esAdelanto: boolean | null
 }
@@ -61,6 +63,7 @@ export type PagoCountAggregateOutputType = {
   reservaId: number
   monto: number
   fecha: number
+  referencia: number
   metodo: number
   esAdelanto: number
   _all: number
@@ -84,6 +87,7 @@ export type PagoMinAggregateInputType = {
   reservaId?: true
   monto?: true
   fecha?: true
+  referencia?: true
   metodo?: true
   esAdelanto?: true
 }
@@ -93,6 +97,7 @@ export type PagoMaxAggregateInputType = {
   reservaId?: true
   monto?: true
   fecha?: true
+  referencia?: true
   metodo?: true
   esAdelanto?: true
 }
@@ -102,6 +107,7 @@ export type PagoCountAggregateInputType = {
   reservaId?: true
   monto?: true
   fecha?: true
+  referencia?: true
   metodo?: true
   esAdelanto?: true
   _all?: true
@@ -198,6 +204,7 @@ export type PagoGroupByOutputType = {
   reservaId: number
   monto: runtime.Decimal
   fecha: Date
+  referencia: string | null
   metodo: $Enums.MetodoPago
   esAdelanto: boolean
   _count: PagoCountAggregateOutputType | null
@@ -230,6 +237,7 @@ export type PagoWhereInput = {
   reservaId?: Prisma.IntFilter<"Pago"> | number
   monto?: Prisma.DecimalFilter<"Pago"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFilter<"Pago"> | Date | string
+  referencia?: Prisma.StringNullableFilter<"Pago"> | string | null
   metodo?: Prisma.EnumMetodoPagoFilter<"Pago"> | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFilter<"Pago"> | boolean
   reserva?: Prisma.XOR<Prisma.ReservaScalarRelationFilter, Prisma.ReservaWhereInput>
@@ -240,6 +248,7 @@ export type PagoOrderByWithRelationInput = {
   reservaId?: Prisma.SortOrder
   monto?: Prisma.SortOrder
   fecha?: Prisma.SortOrder
+  referencia?: Prisma.SortOrderInput | Prisma.SortOrder
   metodo?: Prisma.SortOrder
   esAdelanto?: Prisma.SortOrder
   reserva?: Prisma.ReservaOrderByWithRelationInput
@@ -253,6 +262,7 @@ export type PagoWhereUniqueInput = Prisma.AtLeast<{
   reservaId?: Prisma.IntFilter<"Pago"> | number
   monto?: Prisma.DecimalFilter<"Pago"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFilter<"Pago"> | Date | string
+  referencia?: Prisma.StringNullableFilter<"Pago"> | string | null
   metodo?: Prisma.EnumMetodoPagoFilter<"Pago"> | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFilter<"Pago"> | boolean
   reserva?: Prisma.XOR<Prisma.ReservaScalarRelationFilter, Prisma.ReservaWhereInput>
@@ -263,6 +273,7 @@ export type PagoOrderByWithAggregationInput = {
   reservaId?: Prisma.SortOrder
   monto?: Prisma.SortOrder
   fecha?: Prisma.SortOrder
+  referencia?: Prisma.SortOrderInput | Prisma.SortOrder
   metodo?: Prisma.SortOrder
   esAdelanto?: Prisma.SortOrder
   _count?: Prisma.PagoCountOrderByAggregateInput
@@ -280,6 +291,7 @@ export type PagoScalarWhereWithAggregatesInput = {
   reservaId?: Prisma.IntWithAggregatesFilter<"Pago"> | number
   monto?: Prisma.DecimalWithAggregatesFilter<"Pago"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeWithAggregatesFilter<"Pago"> | Date | string
+  referencia?: Prisma.StringNullableWithAggregatesFilter<"Pago"> | string | null
   metodo?: Prisma.EnumMetodoPagoWithAggregatesFilter<"Pago"> | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolWithAggregatesFilter<"Pago"> | boolean
 }
@@ -287,6 +299,7 @@ export type PagoScalarWhereWithAggregatesInput = {
 export type PagoCreateInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Date | string
+  referencia?: string | null
   metodo: $Enums.MetodoPago
   esAdelanto?: boolean
   reserva: Prisma.ReservaCreateNestedOneWithoutPagosInput
@@ -297,6 +310,7 @@ export type PagoUncheckedCreateInput = {
   reservaId: number
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Date | string
+  referencia?: string | null
   metodo: $Enums.MetodoPago
   esAdelanto?: boolean
 }
@@ -304,6 +318,7 @@ export type PagoUncheckedCreateInput = {
 export type PagoUpdateInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodo?: Prisma.EnumMetodoPagoFieldUpdateOperationsInput | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reserva?: Prisma.ReservaUpdateOneRequiredWithoutPagosNestedInput
@@ -314,6 +329,7 @@ export type PagoUncheckedUpdateInput = {
   reservaId?: Prisma.IntFieldUpdateOperationsInput | number
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodo?: Prisma.EnumMetodoPagoFieldUpdateOperationsInput | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -323,6 +339,7 @@ export type PagoCreateManyInput = {
   reservaId: number
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Date | string
+  referencia?: string | null
   metodo: $Enums.MetodoPago
   esAdelanto?: boolean
 }
@@ -330,6 +347,7 @@ export type PagoCreateManyInput = {
 export type PagoUpdateManyMutationInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodo?: Prisma.EnumMetodoPagoFieldUpdateOperationsInput | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -339,6 +357,7 @@ export type PagoUncheckedUpdateManyInput = {
   reservaId?: Prisma.IntFieldUpdateOperationsInput | number
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodo?: Prisma.EnumMetodoPagoFieldUpdateOperationsInput | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -358,6 +377,7 @@ export type PagoCountOrderByAggregateInput = {
   reservaId?: Prisma.SortOrder
   monto?: Prisma.SortOrder
   fecha?: Prisma.SortOrder
+  referencia?: Prisma.SortOrder
   metodo?: Prisma.SortOrder
   esAdelanto?: Prisma.SortOrder
 }
@@ -373,6 +393,7 @@ export type PagoMaxOrderByAggregateInput = {
   reservaId?: Prisma.SortOrder
   monto?: Prisma.SortOrder
   fecha?: Prisma.SortOrder
+  referencia?: Prisma.SortOrder
   metodo?: Prisma.SortOrder
   esAdelanto?: Prisma.SortOrder
 }
@@ -382,6 +403,7 @@ export type PagoMinOrderByAggregateInput = {
   reservaId?: Prisma.SortOrder
   monto?: Prisma.SortOrder
   fecha?: Prisma.SortOrder
+  referencia?: Prisma.SortOrder
   metodo?: Prisma.SortOrder
   esAdelanto?: Prisma.SortOrder
 }
@@ -441,6 +463,7 @@ export type EnumMetodoPagoFieldUpdateOperationsInput = {
 export type PagoCreateWithoutReservaInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Date | string
+  referencia?: string | null
   metodo: $Enums.MetodoPago
   esAdelanto?: boolean
 }
@@ -449,6 +472,7 @@ export type PagoUncheckedCreateWithoutReservaInput = {
   id?: number
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Date | string
+  referencia?: string | null
   metodo: $Enums.MetodoPago
   esAdelanto?: boolean
 }
@@ -487,6 +511,7 @@ export type PagoScalarWhereInput = {
   reservaId?: Prisma.IntFilter<"Pago"> | number
   monto?: Prisma.DecimalFilter<"Pago"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFilter<"Pago"> | Date | string
+  referencia?: Prisma.StringNullableFilter<"Pago"> | string | null
   metodo?: Prisma.EnumMetodoPagoFilter<"Pago"> | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFilter<"Pago"> | boolean
 }
@@ -495,6 +520,7 @@ export type PagoCreateManyReservaInput = {
   id?: number
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Date | string
+  referencia?: string | null
   metodo: $Enums.MetodoPago
   esAdelanto?: boolean
 }
@@ -502,6 +528,7 @@ export type PagoCreateManyReservaInput = {
 export type PagoUpdateWithoutReservaInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodo?: Prisma.EnumMetodoPagoFieldUpdateOperationsInput | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -510,6 +537,7 @@ export type PagoUncheckedUpdateWithoutReservaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodo?: Prisma.EnumMetodoPagoFieldUpdateOperationsInput | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -518,6 +546,7 @@ export type PagoUncheckedUpdateManyWithoutReservaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodo?: Prisma.EnumMetodoPagoFieldUpdateOperationsInput | $Enums.MetodoPago
   esAdelanto?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -529,6 +558,7 @@ export type PagoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   reservaId?: boolean
   monto?: boolean
   fecha?: boolean
+  referencia?: boolean
   metodo?: boolean
   esAdelanto?: boolean
   reserva?: boolean | Prisma.ReservaDefaultArgs<ExtArgs>
@@ -539,6 +569,7 @@ export type PagoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   reservaId?: boolean
   monto?: boolean
   fecha?: boolean
+  referencia?: boolean
   metodo?: boolean
   esAdelanto?: boolean
   reserva?: boolean | Prisma.ReservaDefaultArgs<ExtArgs>
@@ -549,6 +580,7 @@ export type PagoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   reservaId?: boolean
   monto?: boolean
   fecha?: boolean
+  referencia?: boolean
   metodo?: boolean
   esAdelanto?: boolean
   reserva?: boolean | Prisma.ReservaDefaultArgs<ExtArgs>
@@ -559,11 +591,12 @@ export type PagoSelectScalar = {
   reservaId?: boolean
   monto?: boolean
   fecha?: boolean
+  referencia?: boolean
   metodo?: boolean
   esAdelanto?: boolean
 }
 
-export type PagoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reservaId" | "monto" | "fecha" | "metodo" | "esAdelanto", ExtArgs["result"]["pago"]>
+export type PagoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reservaId" | "monto" | "fecha" | "referencia" | "metodo" | "esAdelanto", ExtArgs["result"]["pago"]>
 export type PagoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reserva?: boolean | Prisma.ReservaDefaultArgs<ExtArgs>
 }
@@ -584,6 +617,7 @@ export type $PagoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     reservaId: number
     monto: runtime.Decimal
     fecha: Date
+    referencia: string | null
     metodo: $Enums.MetodoPago
     esAdelanto: boolean
   }, ExtArgs["result"]["pago"]>
@@ -1014,6 +1048,7 @@ export interface PagoFieldRefs {
   readonly reservaId: Prisma.FieldRef<"Pago", 'Int'>
   readonly monto: Prisma.FieldRef<"Pago", 'Decimal'>
   readonly fecha: Prisma.FieldRef<"Pago", 'DateTime'>
+  readonly referencia: Prisma.FieldRef<"Pago", 'String'>
   readonly metodo: Prisma.FieldRef<"Pago", 'MetodoPago'>
   readonly esAdelanto: Prisma.FieldRef<"Pago", 'Boolean'>
 }

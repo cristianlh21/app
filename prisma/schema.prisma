@@ -123,6 +123,7 @@ model Cliente {
   telefono  String?
   email     String?
   esEmpresa Boolean @default(false)
+  direccion String?
 
   reservas Reserva[]
 }
@@ -193,6 +194,7 @@ model Pago {
   reserva    Reserva    @relation(fields: [reservaId], references: [id])
   monto      Decimal    @db.Decimal(10, 2)
   fecha      DateTime   @default(now())
+  referencia  String?
   metodo     MetodoPago
   esAdelanto Boolean    @default(false)
 }
