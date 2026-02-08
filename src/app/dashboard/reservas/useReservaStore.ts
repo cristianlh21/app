@@ -1,7 +1,7 @@
 // dashboard/reservas/useReservaStore.ts
 import { create } from 'zustand';
 import { ReservaStoreState, ReservaStoreActions } from './typesReserva';
-import { differenceInDays } from 'date-fns'; // Necesitarás esta librería
+import { differenceInDays } from 'date-fns';
 
 export const useReservaStore = create<ReservaStoreState & ReservaStoreActions>((set, get) => ({
   currentStep: 1,
@@ -13,17 +13,18 @@ export const useReservaStore = create<ReservaStoreState & ReservaStoreActions>((
   tipoVendidoNombre: undefined,
   precioVendido: 0,
   totalEstadia: 0,
+  isPrecioManual: false,
   cliente: null,
   pagos: [],
 
   setStep: (step) => set({ currentStep: step }),
 
-  // Al cambiar fechas, recalculamos el total si ya hay una habitación elegida
   setFechas: (inicio, fin) => {
     set({ fechaCheckIn: inicio, fechaCheckOut: fin });
     
     const state = get();
-    if (state.precioVendido > 0 && inicio && fin) {
+    // Solo recalculamos automáticamente si NO hemos puesto un precio a mano
+    if (state.precioVendido > 0 && inicio && fin && !state.isPrecioManual) {
       const noches = Math.max(1, differenceInDays(fin, inicio));
       set({ totalEstadia: state.precioVendido * noches });
     }
@@ -41,6 +42,7 @@ export const useReservaStore = create<ReservaStoreState & ReservaStoreActions>((
       tipoVendidoId: tipoId,
       tipoVendidoNombre: tipoNombre,
       precioVendido: precio,
+      isPrecioManual: false, // Al cambiar de habitación, volvemos al modo automático
       totalEstadia: precio * noches
     });
   },
@@ -55,7 +57,15 @@ export const useReservaStore = create<ReservaStoreState & ReservaStoreActions>((
       tipoVendidoId: id, 
       tipoVendidoNombre: nombre,
       precioVendido: precio,
+      isPrecioManual: false, // Al cambiar de tipo, volvemos al modo automático
       totalEstadia: precio * noches 
+    });
+  },
+
+  setTotalManual: (nuevoTotal) => {
+    set({ 
+      totalEstadia: nuevoTotal,
+      isPrecioManual: true // "Traba" para que no se cambie solo al tocar las fechas
     });
   },
 
@@ -77,6 +87,7 @@ export const useReservaStore = create<ReservaStoreState & ReservaStoreActions>((
     tipoVendidoId: null,
     precioVendido: 0,
     totalEstadia: 0,
+    isPrecioManual: false,
     cliente: null,
     pagos: [],
   }),

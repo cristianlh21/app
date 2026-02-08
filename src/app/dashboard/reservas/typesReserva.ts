@@ -49,6 +49,7 @@ export interface ReservaStoreState {
   tipoVendidoId: number | null;
   tipoVendidoNombre: string | undefined;
   precioVendido: number; // Precio por noche acordado
+  isPrecioManual: boolean;
   totalEstadia: number;  // Precio total (noches * precioVendido)
   
   cliente: ClienteReserva | null;
@@ -62,6 +63,7 @@ export interface ReservaStoreActions {
   setHabitacion: (id: number, numero: string, tipoId: number, tipoNombre: string, precio: number) => void;
   setTipoVendido: (id: number, nombre: string, precio: number) => void;
   setCliente: (cliente: ClienteReserva) => void;
+  setTotalManual: (nuevoTotal: number) => void; // <-- AGREGADO
   addPago: (pago: PagoReserva) => void;
   removePago: (index: number) => void;
   resetReserva: () => void;

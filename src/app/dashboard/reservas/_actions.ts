@@ -3,8 +3,9 @@
 
 import { prisma } from "@/lib/prisma";
 import { ClienteReserva, PagoReserva } from "./typesReserva";
-import { MetodoPago } from "@/generated/client/client";
+import { EstadoReserva, MetodoPago } from "@/generated/client/client";
 import { getSession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 
 export async function getDisponibilidadAction(checkIn: Date, checkOut: Date) {
@@ -134,5 +135,117 @@ export async function crearReservaCompletaAction(params: GuardarReservaParams) {
   } catch (error) {
     console.error("ERROR AL GUARDAR RESERVA:", error);
     return { success: false, error: "No se pudo guardar la reserva." };
+  }
+}
+
+
+
+
+
+
+/**
+ * Función genérica para cambiar el estado de una reserva.
+ * Se usa para Cancelar, No-Show, etc.
+ */
+export async function actualizarEstadoReservaAction(reservaId: number, nuevoEstado: EstadoReserva) {
+  try {
+    await prisma.reserva.update({
+      where: { id: reservaId },
+      data: { estado: nuevoEstado },
+    });
+
+    // Refrescamos las rutas para que el cambio sea instantáneo en la UI
+    revalidatePath("/dashboard/reservas");
+    revalidatePath(`/dashboard/reservas/${reservaId}`);
+
+    return { success: true };
+  } catch (error) {
+    console.error(`ERROR AL CAMBIAR ESTADO A ${nuevoEstado}:`, error);
+    return { success: false, error: "No se pudo actualizar el estado de la reserva." };
+  }
+}
+
+export async function finalizarCheckInAction(data: {
+  reservaId: number;
+  reservaHabitacionId: number;
+  nuevaHabitacionId: number;
+  huespedes: { nombre: string; apellido: string; documento: string; nacionalidad: string }[];
+  titularSeHospeda: boolean;
+  servicios: { descripcion: string; monto: number; cantidad: number }[];
+  totalEstadiaFinal: number;
+}) {
+  try {
+    await prisma.$transaction(async (tx) => {
+      
+      // 1. Buscamos la relación actual
+      const relOriginal = await tx.reservaHabitacion.findUnique({
+        where: { id: data.reservaHabitacionId }
+      });
+
+      if (!relOriginal) throw new Error("No se encontró el vínculo de habitación.");
+
+      // 2. Si el recepcionista cambió la habitación en el Wizard, actualizamos el vínculo
+      if (relOriginal.habitacionId !== data.nuevaHabitacionId) {
+        await tx.reservaHabitacion.update({
+          where: { id: data.reservaHabitacionId },
+          data: { habitacionId: data.nuevaHabitacionId }
+        });
+        
+        // El estado de la habitación vieja lo manejamos aquí si es necesario
+        // Pero lo más importante es marcar la NUEVA como OCUPADA
+      }
+
+      // 3. Actualizamos la Reserva a CHECK_IN y su nuevo total (por si hubo descuento)
+      await tx.reserva.update({
+        where: { id: data.reservaId },
+        data: { 
+          estado: "CHECK_IN",
+          totalReserva: data.totalEstadiaFinal 
+        },
+      });
+
+      // 4. Marcamos la habitación física como OCUPADA
+      await tx.habitacion.update({
+        where: { id: data.nuevaHabitacionId },
+        data: { disponibilidad: "OCUPADA" },
+      });
+
+      // 5. REGISTRO DE HUÉSPEDES
+      // Nota: Aquí podrías sumar al titular si data.titularSeHospeda es true
+      for (const h of data.huespedes) {
+        const persona = await tx.huesped.upsert({
+          where: { documento: h.documento },
+          update: { nombre: h.nombre, apellido: h.apellido, nacionalidad: h.nacionalidad },
+          create: { nombre: h.nombre, apellido: h.apellido, documento: h.documento, nacionalidad: h.nacionalidad },
+        });
+
+        await tx.ocupacionHuesped.create({
+          data: {
+            reservaHabitacionId: data.reservaHabitacionId,
+            huespedId: persona.id,
+          }
+        });
+      }
+
+      // 6. CARGOS EXTRAS
+      if (data.servicios.length > 0) {
+        await tx.cargoExtra.createMany({
+          data: data.servicios.map(s => ({
+            reservaId: data.reservaId,
+            descripcion: s.descripcion,
+            monto: s.monto,
+            cantidad: s.cantidad
+          }))
+        });
+      }
+    });
+
+    revalidatePath("/dashboard");
+    revalidatePath(`/dashboard/reservas/${data.reservaId}`);
+    
+    return { success: true };
+  } catch (error) {
+    console.error("ERROR EN CHECK-IN:", error);
+    return { success: false, error: "No se pudo completar el ingreso." };
   }
 }
