@@ -1,73 +1,68 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// dashboard/habitaciones/page.tsx
 import { Accordion } from "@/components/ui/accordion";
 import { SeccionPiso } from "./_components/seccion-piso";
 import { prisma } from "@/lib/prisma";
 import { Piso } from "@/generated/client/enums";
 
 export default async function HabitacionesPage() {
-  /// 1. Buscamos las habitaciones incluyendo AMBOS tipos
+  const hoyInicio = new Date();
+  hoyInicio.setHours(0, 0, 0, 0);
+  const hoyFin = new Date();
+  hoyFin.setHours(23, 59, 59, 999);
+
   const habitacionesRaw = await prisma.habitacion.findMany({
     include: {
       tipoBase: true,
-      tipoActual: true, // <--- ¡Esto es lo que faltaba!
+      tipoActual: true,
+      reservas: {
+        where: {
+          reserva: {
+            estado: { in: ['CHECK_IN', 'CONFIRMADA', 'PENDIENTE'] },
+            OR: [
+              { fechaCheckIn: { lte: hoyFin }, fechaCheckOut: { gte: hoyInicio } }
+            ]
+          }
+        },
+        include: {
+          reserva: { include: { cliente: true } },
+          huespedes: { include: { huesped: true } }
+        }
+      }
     },
-    orderBy: {
-      numero: 'asc'
-    }
+    orderBy: { numero: 'asc' }
   });
 
-  // 2. Convertimos los objetos Decimal a números para que sean compatibles con el Cliente
+  // Limpieza profunda de Decimales para evitar errores de serialización
   const habitaciones = habitacionesRaw.map(h => ({
     ...h,
-    tipoBase: {
-      ...h.tipoBase,
-      precioBase: h.tipoBase.precioBase.toNumber()
-    },
-    tipoActual: {
-      ...h.tipoActual,
-      precioBase: h.tipoActual.precioBase.toNumber()
-    }
+    tipoBase: { ...h.tipoBase, precioBase: h.tipoBase.precioBase.toNumber() },
+    tipoActual: { ...h.tipoActual, precioBase: h.tipoActual.precioBase.toNumber() },
+    reservas: h.reservas.map(rel => ({
+      ...rel,
+      precioAplicado: rel.precioAplicado.toNumber(),
+      reserva: {
+        ...rel.reserva,
+        totalReserva: rel.reserva.totalReserva.toNumber()
+      }
+    }))
   }));
-  // 2. Definimos el orden manual de los pisos para que no se ordenen alfabéticamente
-  const ordenPisos: Piso[] = [
-    "PLANTA_BAJA",
-    "PRIMER_PISO",
-    "SEGUNDO_PISO",
-    "TERCER_PISO",
-    "CUARTO_PISO"
-  ];
+
+  const ordenPisos: Piso[] = ["PLANTA_BAJA", "PRIMER_PISO", "SEGUNDO_PISO", "TERCER_PISO", "CUARTO_PISO"];
 
   return (
-    <div className="p-8 max-w-400 mx-auto space-y-8">
+    <div className="p-8 max-w-7xl mx-auto space-y-8">
       <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-800">
-          Mapa de Habitaciones
+        <h1 className="text-4xl font-black tracking-tighter text-slate-900 italic uppercase">
+          Mapa de Unidades
         </h1>
-        <p className="text-slate-500">
-          Visualiza y gestiona el estado actual de las unidades.
-        </p>
+        <p className="text-slate-500 font-medium text-sm italic">Operaciones en tiempo real</p>
       </header>
 
-      {/* Contenedor principal de los pisos */}
-      <Accordion 
-        type="multiple" 
-        defaultValue={["PLANTA_BAJA", "PRIMER_PISO"]} 
-        className="w-full"
-      >
+      <Accordion type="multiple" defaultValue={["PLANTA_BAJA", "PRIMER_PISO"]} className="w-full">
         {ordenPisos.map((piso) => {
           const habsDelPiso = habitaciones.filter(h => h.piso === piso);
-          
-          // Si el piso no tiene habitaciones (ej. un piso nuevo vacío), no lo mostramos
           if (habsDelPiso.length === 0) return null;
-
-          return (
-            <SeccionPiso 
-              key={piso} 
-              nombrePiso={piso} 
-              habitaciones={habsDelPiso as any} 
-            />
-          );
+          return <SeccionPiso key={piso} nombrePiso={piso} habitaciones={habsDelPiso as any} />;
         })}
       </Accordion>
     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // dashboard/habitaciones/_actions.ts
 "use server"
 import { prisma } from "@/lib/prisma";

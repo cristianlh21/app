@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // dashboard/habitaciones/typesHabitaciones.ts
 
 import { Habitacion, TipoHabitacion } from "@/generated/client/client";
@@ -20,6 +21,7 @@ export interface HabitacionClient {
 export type HabitacionExtended = Habitacion & {
   tipoBase: TipoHabitacion;
   tipoActual: TipoHabitacion;
+  reservas: any[];
 };
 
 export interface ReservaHardcoded {
