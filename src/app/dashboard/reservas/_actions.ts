@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // dashboard/reservas/_actions.ts
 "use server"
 
@@ -247,5 +248,76 @@ export async function finalizarCheckInAction(data: {
   } catch (error) {
     console.error("ERROR EN CHECK-IN:", error);
     return { success: false, error: "No se pudo completar el ingreso." };
+  }
+}
+
+interface PagoFinal {
+  monto: number;
+  metodo: any; // Aquí Prisma esperará uno de los valores del Enum MetodoPago
+  referencia?: string;
+}
+
+export async function finalizarCheckOutAction(data: {
+  reservaId: number;
+  pagosFinales: PagoFinal[];
+}) {
+  try {
+    const resultado = await prisma.$transaction(async (tx) => {
+      
+      // 1. Obtener la reserva y sus habitaciones vinculadas
+      const reserva = await tx.reserva.findUnique({
+        where: { id: data.reservaId },
+        include: { habitaciones: true }
+      });
+
+      if (!reserva) throw new Error("La reserva no existe.");
+
+      // 2. Registrar los pagos finales en la tabla Pago
+      if (data.pagosFinales.length > 0) {
+        await tx.pago.createMany({
+          data: data.pagosFinales.map(p => ({
+            reservaId: data.reservaId,
+            monto: p.monto,
+            metodo: p.metodo, // Prisma valida el Enum aquí
+            referencia: p.referencia || null,
+            esAdelanto: false, // Es el cierre de cuenta
+            fecha: new Date(),
+          }))
+        });
+      }
+
+      // 3. Actualizar el estado de la reserva principal
+      await tx.reserva.update({
+        where: { id: data.reservaId },
+        data: { estado: "CHECK_OUT" }
+      });
+
+      // 4. Liberar las habitaciones físicas y marcarlas para limpieza
+      // Usamos un loop por si la reserva tenía múltiples habitaciones (ej: reserva grupal)
+      const habitacionesIds = reserva.habitaciones.map(h => h.habitacionId);
+      
+      await tx.habitacion.updateMany({
+        where: { id: { in: habitacionesIds } },
+        data: {
+          disponibilidad: "LIBRE",
+          estadoLimpieza: "SUCIA" // <--- Importante para el flujo de mucamas
+        }
+      });
+
+      return { success: true };
+    });
+
+    // Revalidamos las rutas para que el dashboard se actualice al instante
+    revalidatePath("/dashboard");
+    revalidatePath(`/dashboard/reservas/${data.reservaId}`);
+
+    return resultado;
+
+  } catch (error: any) {
+    console.error("CRITICAL ERROR DURING CHECKOUT:", error);
+    return { 
+      success: false, 
+      error: error.message || "Error interno al procesar el Check-Out." 
+    };
   }
 }
